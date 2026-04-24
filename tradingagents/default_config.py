@@ -11,6 +11,9 @@ DEFAULT_CONFIG = {
     "deep_think_llm": "gpt-5.4",
     "quick_think_llm": "gpt-5.4-mini",
     "backend_url": "https://api.openai.com/v1",
+    # LLM timeout settings (important for custom endpoints with large payloads)
+    "llm_timeout": int(os.getenv("LLM_TIMEOUT", "300")),  # 5 minutes default
+    "llm_max_retries": int(os.getenv("LLM_MAX_RETRIES", "2")),
     # Provider-specific thinking configuration
     "google_thinking_level": None,      # "high", "minimal", etc.
     "openai_reasoning_effort": None,    # "medium", "high", "low"
