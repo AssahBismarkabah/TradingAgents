@@ -193,6 +193,12 @@ def _select_model(provider: str, mode: str) -> str:
             validate=lambda x: len(x.strip()) > 0 or "Please enter a deployment name.",
         ).ask().strip()
 
+    if provider.lower() == "custom":
+        return questionary.text(
+            f"Enter model name for {mode}-thinking (e.g., glm-5, mixtral-8x7b):",
+            validate=lambda x: len(x.strip()) > 0 or "Please enter a model name.",
+        ).ask().strip()
+
     choice = questionary.select(
         f"Select Your [{mode.title()}-Thinking LLM Engine]:",
         choices=[
@@ -242,6 +248,7 @@ def select_llm_provider() -> tuple[str, str | None]:
         ("OpenRouter", "openrouter", "https://openrouter.ai/api/v1"),
         ("Azure OpenAI", "azure", None),
         ("Ollama", "ollama", "http://localhost:11434/v1"),
+        ("Custom Endpoint", "custom", None),  # Generic OpenAI-compatible endpoint
     ]
 
     choice = questionary.select(
