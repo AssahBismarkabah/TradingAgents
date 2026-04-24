@@ -48,6 +48,7 @@ _PROVIDER_CONFIG = {
     "glm": ("https://api.z.ai/api/paas/v4/", "ZHIPU_API_KEY"),
     "openrouter": ("https://openrouter.ai/api/v1", "OPENROUTER_API_KEY"),
     "ollama": ("http://localhost:11434/v1", None),
+    "custom": (None, "CUSTOM_API_KEY"),  # Generic OpenAI-compatible endpoint
 }
 
 
@@ -78,13 +79,30 @@ class OpenAIClient(BaseLLMClient):
         # Provider-specific base URL and auth
         if self.provider in _PROVIDER_CONFIG:
             base_url, api_key_env = _PROVIDER_CONFIG[self.provider]
-            llm_kwargs["base_url"] = base_url
-            if api_key_env:
-                api_key = os.environ.get(api_key_env)
-                if api_key:
-                    llm_kwargs["api_key"] = api_key
+            
+            # For custom provider, get base_url and api_key from env vars
+            if self.provider == "custom":
+                custom_base_url = os.environ.get("CUSTOM_API_BASE_URL")
+                custom_api_key = os.environ.get("CUSTOM_API_KEY")
+                
+                # Prefer env vars, fall back to instance attributes
+                if custom_base_url:
+                    llm_kwargs["base_url"] = custom_base_url
+                elif self.base_url:
+                    llm_kwargs["base_url"] = self.base_url
+                    
+                if custom_api_key:
+                    llm_kwargs["api_key"] = custom_api_key
             else:
-                llm_kwargs["api_key"] = "ollama"
+                # Standard provider handling
+                if base_url:
+                    llm_kwargs["base_url"] = base_url
+                if api_key_env:
+                    api_key = os.environ.get(api_key_env)
+                    if api_key:
+                        llm_kwargs["api_key"] = api_key
+                else:
+                    llm_kwargs["api_key"] = "ollama"
         elif self.base_url:
             llm_kwargs["base_url"] = self.base_url
 
