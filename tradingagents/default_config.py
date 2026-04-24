@@ -21,6 +21,9 @@ DEFAULT_CONFIG = {
     # provider-specific URL here would leak (e.g. OpenAI's /v1 was previously
     # being forwarded to Gemini, producing malformed request URLs).
     "backend_url": None,
+    # LLM timeout settings (important for custom endpoints with large payloads)
+    "llm_timeout": int(os.getenv("LLM_TIMEOUT", "300")),  # 5 minutes default
+    "llm_max_retries": int(os.getenv("LLM_MAX_RETRIES", "2")),
     # Provider-specific thinking configuration
     "google_thinking_level": None,      # "high", "minimal", etc.
     "openai_reasoning_effort": None,    # "medium", "high", "low"

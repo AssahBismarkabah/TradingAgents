@@ -134,6 +134,12 @@ class TradingAgentsGraph:
         kwargs = {}
         provider = self.config.get("llm_provider", "").lower()
 
+        # Set timeout for all providers (especially important for custom endpoints)
+        # Default timeout is often too short for large payloads
+        timeout = self.config.get("llm_timeout", 300)  # 5 minutes default
+        kwargs["timeout"] = timeout
+        kwargs["max_retries"] = self.config.get("llm_max_retries", 2)
+
         if provider == "google":
             thinking_level = self.config.get("google_thinking_level")
             if thinking_level:
