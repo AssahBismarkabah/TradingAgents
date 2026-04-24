@@ -99,6 +99,17 @@ MODEL_OPTIONS: ProviderModeOptions = {
             ("Custom model ID", "custom"),
         ],
     },
+    # Custom OpenAI-compatible endpoint - configure via env vars
+    "custom": {
+        "quick": [
+            ("Custom model (configure via CUSTOM_API_BASE_URL)", "custom-model"),
+            ("Custom model ID", "custom"),
+        ],
+        "deep": [
+            ("Custom model (configure via CUSTOM_API_BASE_URL)", "custom-model"),
+            ("Custom model ID", "custom"),
+        ],
+    },
     # OpenRouter: fetched dynamically. Azure: any deployed model name.
     "ollama": {
         "quick": [
