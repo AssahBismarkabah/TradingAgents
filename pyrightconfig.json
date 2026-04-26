@@ -1,0 +1,27 @@
+{
+  "include": [
+    "cli",
+    "tradingagents",
+    "tests",
+    "main.py",
+    "test.py"
+  ],
+  "exclude": [
+    "**/__pycache__",
+    ".git",
+    ".venv",
+    "assets",
+    "tradingagents.egg-info"
+  ],
+  "venvPath": ".",
+  "venv": ".venv",
+  "typeCheckingMode": "basic",
+  "reportMissingImports": "error",
+  "reportMissingTypeStubs": "none",
+  "reportAttributeAccessIssue": "warning",
+  "reportArgumentType": "warning",
+  "reportGeneralTypeIssues": "warning",
+  "reportOptionalMemberAccess": "warning",
+  "reportOptionalSubscript": "warning",
+  "reportReturnType": "warning"
+}
